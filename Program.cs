@@ -7,52 +7,52 @@ public class Program {
     }
 }
 
+interface IAutopilotable{
+    bool hasAutopilot();
+}
+
 public class Vehicle
 {
-    public Vehicle(string make = "dodge", string model = "ram")
+   public virtual string Type {get; set;}  //if prop to be inherited, virtual. 1
+    public Vehicle(string make, string model)
     {
         Make = make;
         Model = model;
     }
-    public virtual string Name { get; set; }
-    public string Make { get; set; } 
-    public string Model { get; set; } 
+ 
+    public string Make { get; set; }
+    public string Model { get; set; }
     public virtual int NumOfGears { get; set; } = 4;
     public virtual int NumOfTires { get; set; } = 4;
-    public override string ToString() {
-        Console.WriteLine($"This {Name} is a {Make} {Model}");
+
+    public override string ToString(){
+        return $"This {Type} is a {Make} {Model}";
     }
+}       
+public class ElectricCar : Vehicle {
+    public override string Type{get; set;} = "electric car"; //1
+    public ElectricCar(string make = "", string model = "") : base(make, model){}  //calling base constructor
+    public override int NumOfGears{get; set;} = 1;
+        
+}
+public class Tesla : ElectricCar, IAutopilotable{
+    public Tesla(string make = "", string model = "") : base(make, model){}
+    public override string Type{get; set;} = "Tesla";
+
+    public bool hasAutopilot(){ return true;}
+    
+}
+public class Motorcycle : Vehicle{
+    public Motorcycle(string make = "", string model = "") : base(make, model){}
+    public override int NumOfTires{get; set;} = 2;
+    public override string Type{get; set;} = "motorcycle";
 }
 
-public class ElectricCar : Vehicle , IAutopilotable{
-    public ElectricCar(string make = "dodge", string model = "ram") : base(make, model){}
-    public override int NumOfGears {get; set;} = 1;
-    public override string Name {get; set;} = "electric car";
-}
+public class Trike : Motorcycle, IAutopilotable{
+    public Trike(string make = "", string model = "") : base(make, model){}
+    public override string Type{get; set;} = "trike";
 
-public class Tesla : ElectricCar {
-    public Tesla(string make = "dodge", string model = "ram") : base(make, model){}
-    public override string Name {get; set;} = "tesla";
-    //bool IAutopilotable..
-    }
-
-public class Motorcycle : Vehicle {
-    public Motorcycle(string make = "dodge", string model = "ram") : base(make, model){}
-    public override int NumOfTires {get; set;} = 2;
-    public override string Name {get; set;} = "motorcycle";
-}
-
-public class Trike : Motorcycle {
-    public Trike(string make = "dodge", string model = "ram") : base(make, model){}
-    public override int NumOfTires {get; set; } = 3;
-    public override int NumOfGears {get; set; } = 2;
-}
-public interface IAutopilotable {
-    string Name { get; set; } 
-    bool hasAutopilot{
-        get {}
-        set {}  
-    }
+    public bool hasAutopilot(){ return true;}
 }
 
 public class InheritanceChallengeTests
